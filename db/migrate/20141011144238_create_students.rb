@@ -1,6 +1,6 @@
 require_relative '../config'
 
-# this is where you should use an ActiveRecord migration to 
+# this is where  you should use an ActiveRecord migration to 
 
 class CreateStudents < ActiveRecord::Migration
   # HINT: checkout ActiveRecord::Migration.create_table
@@ -12,7 +12,6 @@ class CreateStudents < ActiveRecord::Migration
       t.date     :birthday
       t.string   :email
       t.string   :phone
-      t.integer  :teacher_id
     end
   end
 end
