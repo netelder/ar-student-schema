@@ -1,6 +1,11 @@
 require_relative '../../db/config'
 
 class Student < ActiveRecord::Base
+
+  attr_writer :teacher_id
+
+  belongs_to :teacher
+
   validates :email, :uniqueness => true
   validates :email, :format => {:with => /\S+@\S+\.\S{2,}/}
   validates :phone, :length => {:minimum => 10}

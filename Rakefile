@@ -2,6 +2,10 @@ require 'rake'
 require 'rspec/core/rake_task'
 require_relative 'db/config'
 require_relative 'lib/students_importer'
+require_relative 'lib/teachers_importer'
+require_relative 'app/models/student'
+require_relative 'app/models/teacher'
+
 
 
 desc "create the database"
@@ -28,6 +32,11 @@ task "db:populate" do
   StudentsImporter.import
 end
 
+desc "populate the test database with sample data"
+task "db:teacherhire" do
+  TeachersImporter.import
+end
+
 desc 'Retrieves the current schema version number'
 task "db:version" do
   puts "Current version: #{ActiveRecord::Migrator.current_version}"
@@ -37,3 +46,19 @@ desc "Run the specs"
 RSpec::Core::RakeTask.new(:specs)
 
 task :default  => :specs
+
+
+desc "randomly assign students to teachers"
+task "db:assign_teachers" do
+  teachvals = []
+  Teacher.all(:select => "id").each do |teacher|
+    teachvals << teacher[:id]
+  end
+  Student.all.each do |student|
+    student[:teacher_id] = teachvals.sample
+    student.save
+  end
+
+end
+
+
